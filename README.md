@@ -1,5 +1,6 @@
 # Классы и наследование персонажей
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ff3ce4iylaxapka7?svg=true)](https://ci.appveyor.com/project/dm-morozov/netology-43-prototypes-constructors-classes-and-in-s443a)
 ![Netology](https://img.shields.io/badge/Netology-JavaScript-blue)
 ![Jest Coverage](https://img.shields.io/badge/Покрытие-100%25-brightgreen)
 
