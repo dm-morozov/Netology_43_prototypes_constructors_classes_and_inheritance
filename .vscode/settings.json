@@ -13,5 +13,6 @@
     },
     "accessibility.signals.lineHasWarning": {
         "sound": "off"
-    }
+    },
+    "editor.tabSize": 2
 }

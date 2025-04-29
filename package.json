@@ -1,7 +1,7 @@
 {
-  "name": "1.health-indicator",
+  "name": "classes-inheritance",
   "version": "1.0.0",
-  "description": "Health Indicator for Netology",
+  "description": "Домашнее задание к лекции «Классы, наследование»",
   "license": "ISC",
   "author": "dm-morozov",
   "type": "module",

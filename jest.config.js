@@ -6,5 +6,4 @@ export default {
     "^.+\\.js$": "babel-jest",
   },
   moduleFileExtensions: ["js", "mjs"],
-  coveragePathIgnorePatterns: ["/node_modules/", "src/js/http.js"], // Игнорируем http, так как мокаем
 };

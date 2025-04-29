@@ -74,7 +74,7 @@ Player.prototype.startGame = function () {
         console.log(`${this.name} закончил игру.`)
     }, 30000)
 
-    return {ScoreInterval};
+    return { ScoreInterval };
 }
 
 ProPlayer.prototype.startGame = function () {
@@ -94,13 +94,13 @@ ProPlayer.prototype.startGame = function () {
     return { scoreInterval, boostInterval }; // Возвращаем ID для stopGame
 };
 
-ProPlayer.prototype.stopGame = function(intervals) {
+ProPlayer.prototype.stopGame = function (intervals) {
     clearInterval(intervals.scoreInterval);
     clearInterval(intervals.boostInterval);
     console.log(`${this.name} остановил игру.`);
 };
 
-Player.prototype.stopGame = function(intervals) {
+Player.prototype.stopGame = function (intervals) {
     clearInterval(intervals.scoreInterval);
     console.log(`${this.name} остановил игру.`);
 };

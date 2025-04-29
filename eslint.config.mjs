@@ -22,6 +22,7 @@ export default [
         ...globals.node,
         ...globals.es2023,
         ...globals.jest, // Добавляем Jest-глобали
+        ...globals.browser, // Добавляем браузерные глобали (window, document, и т.д.)
       },
     },
     rules: {
