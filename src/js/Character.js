@@ -5,32 +5,33 @@ export default class Character {
       throw new Error("Имя должно содержать от 2 до 10 символов");
     }
 
-    const types = {
-      Bowerman: { attack: 25, defence: 25 },
-      Swordsman: { attack: 40, defence: 10 },
-      Magician: { attack: 10, defence: 40 },
-      Daemon: { attack: 10, defence: 40 },
-      Undead: { attack: 25, defence: 25 },
-      Zombie: { attack: 40, defence: 10 },
-    };
+    const types = [
+      "Bowman",
+      "Swordsman",
+      "Magician",
+      "Daemon",
+      "Undead",
+      "Zombie",
+    ];
 
-    if (!types[type]) {
-      throw new Error(
-        "Тип должен быть одним из: Bowman, Swordsman, Magician, Daemon, Undead, Zombie",
-      );
+    if (!types.includes(type)) {
+      throw new Error(`Тип должен быть одним из: ${types.join(", ")}`);
     }
 
     this.name = name;
     this.type = type;
     this.health = 100;
     this.level = 1;
-    this.attack = types[type].attack;
-    this.defence = types[type].defence;
+    this.attack = undefined;
+    this.defence = undefined;
   }
 
   levelUp() {
     if (this.health <= 0) {
       throw new Error("Нельзя повысить левел умершего");
+    }
+    if (this.attack === undefined || this.defence === undefined) {
+      throw new Error("Нельзя повысить уровень: attack или defence не заданы");
     }
     this.level += 1;
     this.attack *= 1.2;
@@ -39,9 +40,9 @@ export default class Character {
   }
 
   damage(points) {
-    this.health = Math.max(
-      0,
-      Math.min(100, this.health - points * (1 - this.defence / 100)),
-    );
+    if (this.defence === undefined) {
+      throw new Error("Нельзя нанести урон: defence не задано");
+    }
+    this.health = Math.max(0, this.health - points * (1 - this.defence / 100));
   }
 }

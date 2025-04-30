@@ -1,20 +1,18 @@
 // Character.test.js
-import Character from "../Character";
-import {
-  Bowerman,
-  Daemon,
-  Magician,
-  Swordsman,
-  Undead,
-  Zombie,
-} from "../characters";
+import Character from "../Character.js";
+import Bowman from "../Bowman.js";
+import Swordsman from "../Swordsman.js";
+import Magician from "../Magician.js";
+import Daemon from "../Daemon.js";
+import Undead from "../Undead.js";
+import Zombie from "../Zombie.js";
 
 describe("Character", () => {
   test("Создание персонажа character", () => {
-    const character = new Character("Лучник", "Bowerman");
+    const character = new Bowman("Лучник");
     expect(character).toEqual({
       name: "Лучник",
-      type: "Bowerman",
+      type: "Bowman",
       health: 100,
       level: 1,
       attack: 25,
@@ -23,71 +21,91 @@ describe("Character", () => {
   });
 
   test("Проверка имени на длину, если короткое", () => {
-    expect(() => new Character("М", "Magician")).toThrow(
+    expect(() => new Character("М", "Bowman")).toThrow(
       "Имя должно содержать от 2 до 10 символов",
     );
   });
 
   test("Проверка имени на длину, если длинное", () => {
-    expect(() => new Character("VeryLongName", "Magician")).toThrow(
+    expect(() => new Character("VeryLongName", "Bowman")).toThrow(
       "Имя должно содержать от 2 до 10 символов",
     );
   });
 
   test("Проверка типа персонажа", () => {
-    expect(() => new Character("Heroes", "Invalid")).toThrow(
+    expect(() => new Character("Hero", "Invalid")).toThrow(
       "Тип должен быть одним из: Bowman, Swordsman, Magician, Daemon, Undead, Zombie",
     );
   });
 
   test("Повышение уровня героя", () => {
-    const character = new Character("Heroes", "Bowerman");
+    const character = new Bowman("Лучник");
     character.levelUp();
-    expect(character.level).toBe(2);
-    expect(character.attack).toBe(30);
-    expect(character.defence).toBe(30);
-    expect(character.health).toBe(100);
+    expect(character).toEqual({
+      name: "Лучник",
+      type: "Bowman",
+      health: 100,
+      level: 2,
+      attack: 30, // 25 * 1.2
+      defence: 30, // 25 * 1.2
+    });
+  });
+
+  test("Исключение при повышении уровня для Character без attack/defence", () => {
+    const character = new Character("Hero", "Bowman");
+    expect(() => character.levelUp()).toThrow(
+      "Нельзя повысить уровень: attack или defence не заданы",
+    );
   });
 
   test("Исключение, при повышении уровня, если герой умер", () => {
-    const character = new Character("Hero", "Bowerman");
+    const character = new Bowman("Лучник");
     character.health = 0;
     expect(() => character.levelUp()).toThrow("Нельзя повысить левел умершего");
   });
 
   test("Тест нанесения урона", () => {
-    const character = new Character("Heroes", "Bowerman");
-    character.damage(25);
-    expect(character.health).toBe(81.25);
+    const character = new Bowman("Лучник");
+    character.damage(50);
+    expect(character.health).toBe(62.5); // 100 - 50 * (1 - 25/100)
     character.damage(125);
-    expect(character.health).toBe(0);
+    expect(character.health).toBe(0); // 62.5 - 125 * (1 - 25/100)
+  });
+
+  test("Исключение при нанесении урона для Character без defence", () => {
+    const character = new Character("Hero", "Bowman");
+    expect(() => character.damage(50)).toThrow(
+      "Нельзя нанести урон: defence не задано",
+    );
   });
 
   test("Тест нанесение отрицательного урона", () => {
-    const character = new Character("Heroes", "Bowerman");
-    character.damage(-25);
-    expect(character.health).toBe(100);
+    const character = new Bowman("Лучник");
+    character.damage(-50);
+    expect(character.health).toBe(137.5); // 100 - (-50) * (1 - 25/100)
   });
 });
 
 describe("character classes", () => {
   test.each([
-    [Bowerman, "Bowerman", 25, 25],
-    [Swordsman, "Swordsman", 40, 10],
-    [Magician, "Magician", 10, 40],
-    [Daemon, "Daemon", 10, 40],
-    [Undead, "Undead", 25, 25],
-    [Zombie, "Zombie", 40, 10],
+    [Bowman, "Bowman", { attack: 25, defence: 25 }],
+    [Swordsman, "Swordsman", { attack: 40, defence: 10 }],
+    [Magician, "Magician", { attack: 10, defence: 40 }],
+    [Daemon, "Daemon", { attack: 10, defence: 40 }],
+    [Undead, "Undead", { attack: 25, defence: 25 }],
+    [Zombie, "Zombie", { attack: 40, defence: 10 }],
   ])(
     "should create %p with correct attributes",
-    (Class, type, attack, defence) => {
-      const character = new Class("Heroes");
-      expect(character.name).toBe("Heroes");
-      expect(character.type).toBe(type);
-      expect(character.attack).toBe(attack);
-      expect(character.defence).toBe(defence);
-      expect(character.health).toBe(100);
-      expect(character.level).toBe(1);
+    (Class, type, { attack, defence }) => {
+      const character = new Class("Hero");
+      expect(character).toEqual({
+        name: "Hero",
+        type,
+        health: 100,
+        level: 1,
+        attack,
+        defence,
+      });
     },
   );
 });
