@@ -1,4 +1,4 @@
-# Netology_44_object_reflection_proxy
+# Домашнее задание к лекции «Object, Reflection и Proxy»
 
 [![Build status](https://ci.appveyor.com/api/projects/status/w637s9dd2bhwy5pd?svg=true)](https://ci.appveyor.com/project/dm-morozov/netology-44-object-reflection-proxy)
 ![Netology](https://img.shields.io/badge/Netology-JavaScript-blue)
